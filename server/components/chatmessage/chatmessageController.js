@@ -1,9 +1,13 @@
 const Chatmessage = require("./chatmessageModel");
 
 const createMessage = async (userId, roomId, message) => {
-    const message = new Chatmessage({ user: userId, room: roomId, message });
+    const chatmessage = new Chatmessage({
+        user: userId,
+        room: roomId,
+        message,
+    });
 
-    return await message.save();
+    return await chatmessage.save();
 };
 
 const getMessagesOfChat = async (req, res) => {

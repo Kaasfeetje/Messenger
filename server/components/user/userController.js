@@ -31,25 +31,28 @@ const signup = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { usernameorEmail, password } = req.body;
 
-    if (!username && !email)
+    if (!usernameorEmail || !password)
         throw new BadRequestError(
             "Please provide an email or username and a password"
         );
 
+    const validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        usernameorEmail
+    );
+
     let user;
-    if (username) {
+    if (!validEmail) {
         //case insensitve unique search
         user = await User.where(
             "username",
-            new RegExp("^" + username + "$", "i")
+            new RegExp("^" + usernameorEmail + "$", "i")
         );
         user = user[0];
     } else {
-        user = await User.findOne({ email: email.toLowerCase() });
+        user = await User.findOne({ email: usernameorEmail.toLowerCase() });
     }
-
     if (!user) throw new BadRequestError("Invalid credentials");
 
     const isCorrectPassword = await Password.compare(user.password, password);
