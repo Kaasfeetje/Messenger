@@ -7,6 +7,9 @@ const io = require("socket.io")(server, {
     },
 });
 const mongoose = require("mongoose");
+const {
+    createMessage,
+} = require("./components/chatmessage/chatmessageController");
 
 const start = async () => {
     await mongoose.connect(
@@ -25,15 +28,15 @@ const start = async () => {
     io.on("connection", (socket) => {
         console.log("Client connected...", socket.id);
 
-        socket.on("join", (data) => {
-            socket.join("test");
+        socket.on("join", (room) => {
+            socket.join(room);
         });
 
-        socket.on("message", (data) => {
-            io.to("test").emit("message_response", {
-                socketId: socket.id,
-                message: data,
-            });
+        socket.on("message", async (data) => {
+            const { userId, roomId, message } = data;
+            chatmessage = await createMessage(userId, roomId, message);
+
+            io.emit("newMessage", chatmessage);
         });
     });
 };

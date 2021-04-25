@@ -65,10 +65,25 @@ const deleteRoom = async (req, res) => {
     res.status(204).send({});
 };
 
+const searchRoom = async (req, res) => {
+    const keyword = String(req.params.keyword);
+
+    const rooms = await Chatroom.find({
+        name: { $regex: keyword, $options: "i" },
+        isPublic: true,
+    });
+
+    if (!rooms || rooms.length === 0)
+        throw new NotFoundError("Did not find any rooms.");
+
+    res.status(200).send({ data: rooms });
+};
+
 module.exports = {
     createRoom,
     getAllPublicRooms,
     getRoomById,
     updateRoom,
     deleteRoom,
+    searchRoom,
 };
