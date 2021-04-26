@@ -5,6 +5,7 @@ require("express-async-errors");
 
 const chatroomRouter = require("./chatroom/chatroomRouter");
 const userRouter = require("./user/userRouter");
+const chatmessageRouter = require("./chatmessage/chatmessageRouter");
 const errorHandler = require("../middlewares/errorHandler");
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/api/v1/chatroom", chatroomRouter);
+app.use("/api/v1/chatroom/messages", chatmessageRouter);
 app.use("/api/v1/users", userRouter);
 
 app.use(errorHandler);

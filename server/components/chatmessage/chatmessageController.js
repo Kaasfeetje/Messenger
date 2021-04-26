@@ -12,9 +12,12 @@ const createMessage = async (userId, roomId, message) => {
 
 const getMessagesOfChat = async (req, res) => {
     //TODO: maybe check if room exists with that id
-    const messages = await Chatmessage.find({ room: req.params.roomId }).sort({
-        createdAt: -1,
-    });
+    //TODO: Add last message query that gets messages before last message(for scrolling back)
+    const messages = await Chatmessage.find({
+        room: req.params.roomId,
+    })
+        .limit(25)
+        .populate("user");
 
     res.status(200).send({ data: messages });
 };
