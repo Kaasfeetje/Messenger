@@ -28,15 +28,22 @@ const start = async () => {
     io.on("connection", (socket) => {
         console.log("Client connected...", socket.id);
 
-        socket.on("join", (room) => {
+        socket.on("join_room", (room) => {
+            console.log("Joined room", room);
             socket.join(room);
         });
 
         socket.on("message", async (data) => {
             const { userId, roomId, message } = data;
+
             chatmessage = await createMessage(userId, roomId, message);
 
-            io.emit("newMessage", chatmessage);
+            io.emit("newMessage", {
+                message: chatmessage.message,
+                room: chatmessage.room,
+                user: chatmessage.user,
+                tempSocket: socket.id,
+            });
         });
     });
 };

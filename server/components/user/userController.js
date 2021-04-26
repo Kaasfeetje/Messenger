@@ -85,4 +85,10 @@ const updateMe = async (req, res) => {
     res.status(200).send({ data: updatedUser });
 };
 
-module.exports = { signup, signin, signout, updateMe };
+const getMe = async (req, res) => {
+    const user = await User.findById(req.currentUser.id);
+
+    res.status(200).send({ data: user });
+};
+
+module.exports = { signup, signin, signout, updateMe, getMe };

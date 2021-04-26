@@ -1,7 +1,13 @@
 const express = require("express");
 const currentUser = require("../../middlewares/currentUser");
 const requireAuth = require("../../middlewares/requireAuth");
-const { signup, signin, updateMe, signout } = require("./userController");
+const {
+    signup,
+    signin,
+    updateMe,
+    signout,
+    getMe,
+} = require("./userController");
 
 const router = express.Router();
 
@@ -19,8 +25,12 @@ router.post("/signin", signin);
 router.post("/signout", currentUser, requireAuth, signout);
 
 //@desc Updates the current users nickname and or email
-//@route POST /api/v1/users/me/update
+//@route PUT /api/v1/users/me/update
 //@access Private
 router.put("/me/update", currentUser, requireAuth, updateMe);
+//@desc Gets the logged in user
+//@route GET /api/v1/users/me
+//@access Private
+router.get("/me", currentUser, requireAuth, getMe);
 
 module.exports = router;
