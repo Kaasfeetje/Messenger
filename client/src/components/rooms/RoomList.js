@@ -10,9 +10,11 @@ function RoomList() {
     const [hasSearched, setHasSearched] = useState(false);
 
     const [response, makeRequest] = useAPI();
+    const [roomsJoinedResponse, makeRoomsRequest] = useAPI();
 
+    //handle search request
     useEffect(() => {
-        if (!response.loading && !response.hasError) {
+        if (!response.loading && !response.hasError && response.data) {
             setRooms(response.data);
             setHasSearched(true);
         }
@@ -27,11 +29,35 @@ function RoomList() {
         });
     };
 
+    useEffect(() => {
+        if (!roomsJoinedResponse.loading && !roomsJoinedResponse.hasError) {
+            console.log("test", roomsJoinedResponse.data);
+            setRooms(roomsJoinedResponse.data);
+        }
+    }, [roomsJoinedResponse]);
+
+    useEffect(() => {
+        if (
+            roomsJoinedResponse.loading ||
+            roomsJoinedResponse.loading === false ||
+            !rooms
+        )
+            return;
+        makeRoomsRequest({ url: "/chatroom/joined", method: "GET" });
+    }, [roomsJoinedResponse.loading, rooms, makeRoomsRequest]);
+
     return (
         <div className="roomlist">
             <RoomSearch onSubmit={searchHandler} />
             <div className="roomlist-content">
-                {rooms && rooms.map((room) => <Room room={room} />)}
+                {rooms &&
+                    rooms.map((room) => (
+                        <Room
+                            key={room.id}
+                            room={room}
+                            hasSearched={hasSearched}
+                        />
+                    ))}
             </div>
             <div className="roomlist-new">
                 <i className="fas fa-plus" />
