@@ -1,0 +1,86 @@
+.signinup {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--gray-100);
+}
+
+.signinup-form {
+    position: absolute;
+    width: 25vw;
+    left: 37.5vw;
+    top: 10vh;
+
+    padding: 1rem;
+
+    background-color: var(--gray-200);
+    border: 3px solid var(--gray-500);
+    border-radius: 0.5rem;
+}
+
+.signinup-form h2 {
+    text-align: center;
+    font-weight: 900;
+    font-size: xx-large;
+    color: var(--gray-500);
+}
+
+.signinup-form-item {
+    display: flex;
+    position: relative;
+
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+
+.signinup-form-item input {
+    flex: 1;
+    padding: 0.5rem;
+    padding-left: 2rem;
+
+    color: var(--gray-500);
+    font-size: larger;
+
+    border: 2px solid var(--gray-500);
+    border-radius: 0.25rem;
+
+    overflow: hidden;
+
+    transition: all 0.3s;
+}
+
+.signinup-form-item input:focus {
+    outline: none;
+    border-radius: 0.5rem;
+    border-color: var(--gray-300);
+}
+
+.signinup-form-item label {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+
+    color: var(--gray-500);
+    font-size: x-large;
+}
+
+.signinup-form button {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+
+    font-weight: bold;
+    font-size: x-large;
+
+    border: 2px solid var(--gray-500);
+    border-radius: 0.25rem;
+    background-color: inherit;
+    color: var(--gray-500);
+
+    transition: all 0.3s;
+}
+
+.signinup-form button:hover {
+    border-radius: 0.5rem;
+    background-color: var(--gray-500);
+    color: var(--gray-200);
+}
