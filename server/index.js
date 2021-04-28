@@ -29,20 +29,18 @@ const start = async () => {
         console.log("Client connected...", socket.id);
 
         socket.on("join_room", (room) => {
-            console.log("Joined room", room);
             socket.join(room);
         });
 
         socket.on("leave_room", (room) => {
             socket.leave(room);
-            console.log("Room left", room);
         });
 
         socket.on("message", async (data) => {
             const { userId, roomId, message } = data;
 
             chatmessage = await createMessage(userId, roomId, message);
-            console.log("test", socket.rooms);
+
             io.to(roomId).emit("newMessage", {
                 message: chatmessage.message,
                 room: chatmessage.room,

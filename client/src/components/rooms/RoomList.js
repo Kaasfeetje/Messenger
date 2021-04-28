@@ -4,7 +4,7 @@ import { useAPI } from "../../hooks/useAPI";
 import Room from "./Room";
 import RoomSearch from "./RoomSearch";
 
-function RoomList() {
+function RoomList({ room }) {
     const [rooms, setRooms] = useState([]);
     // eslint-disable-next-line no-unused-vars
     const [hasSearched, setHasSearched] = useState(false);
@@ -48,17 +48,32 @@ function RoomList() {
         makeRoomsRequest({ url: "/chatroom/joined", method: "GET" });
     }, [roomsJoinedResponse.loading, rooms, makeRoomsRequest]);
 
+    const unSearch = () => {
+        makeRoomsRequest({ url: "/chatroom/joined", method: "GET" });
+        setHasSearched(false);
+    };
+
     return (
         <div className="roomlist">
             <RoomSearch onSubmit={searchHandler} />
+            {hasSearched && (
+                <div
+                    className="roomlist-has-searched clickable"
+                    onClick={unSearch}
+                >
+                    <i className="fas fa-arrow-left" />
+                    <span>Go Back</span>
+                </div>
+            )}
             <div className="roomlist-content">
                 {rooms &&
-                    rooms.map((room, i) => (
+                    rooms.map((_room, i) => (
                         <Room
-                            key={room.id}
-                            room={room}
+                            key={_room.id}
+                            room={_room}
                             hasSearched={hasSearched}
                             even={i % 2 === 0}
+                            active={room && room.id === _room.id}
                         />
                     ))}
             </div>

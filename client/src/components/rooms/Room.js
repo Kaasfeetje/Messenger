@@ -2,7 +2,7 @@ import React from "react";
 import { history } from "../../history";
 import { useAPI } from "../../hooks/useAPI";
 
-function Room({ room, hasSearched, even }) {
+function Room({ room, hasSearched, even, active }) {
     const [, makeRequest] = useAPI();
 
     const joinRoomHandler = (e) => {
@@ -21,7 +21,7 @@ function Room({ room, hasSearched, even }) {
             onClick={clickHandler}
             className={`room ${hasSearched ? "" : "clickable"} ${
                 even ? "room-even" : ""
-            }`}
+            } ${active ? "active-room" : ""}`}
         >
             <h2>{room.name}</h2>
             {hasSearched && <button onClick={joinRoomHandler}>Join</button>}

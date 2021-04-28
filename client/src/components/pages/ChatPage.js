@@ -34,7 +34,7 @@ function ChatPage({ match, user }) {
 
     return (
         <div>
-            <RoomList />
+            <RoomList room={room} />
             <Chat room={room} user={user} match={match} />
         </div>
     );
