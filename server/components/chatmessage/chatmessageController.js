@@ -16,10 +16,11 @@ const getMessagesOfChat = async (req, res) => {
     const messages = await Chatmessage.find({
         room: req.params.roomId,
     })
+        .sort({ createdAt: -1 })
         .limit(25)
         .populate("user");
 
-    res.status(200).send({ data: messages });
+    res.status(200).send({ data: messages.reverse() });
 };
 
 module.exports = { getMessagesOfChat, createMessage };

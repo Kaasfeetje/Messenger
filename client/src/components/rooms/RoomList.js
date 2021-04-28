@@ -12,7 +12,7 @@ function RoomList() {
     const [response, makeRequest] = useAPI();
     const [roomsJoinedResponse, makeRoomsRequest] = useAPI();
 
-    //handle search request
+    //set search
     useEffect(() => {
         if (!response.loading && !response.hasError && response.data) {
             setRooms(response.data);
@@ -20,6 +20,7 @@ function RoomList() {
         }
     }, [response]);
 
+    //search request
     const searchHandler = (e, keyword) => {
         e.preventDefault();
         if (keyword === "") return;
@@ -29,13 +30,14 @@ function RoomList() {
         });
     };
 
+    //set rooms
     useEffect(() => {
         if (!roomsJoinedResponse.loading && !roomsJoinedResponse.hasError) {
-            console.log("test", roomsJoinedResponse.data);
             setRooms(roomsJoinedResponse.data);
         }
     }, [roomsJoinedResponse]);
 
+    //get rooms joined request
     useEffect(() => {
         if (
             roomsJoinedResponse.loading ||
@@ -51,11 +53,12 @@ function RoomList() {
             <RoomSearch onSubmit={searchHandler} />
             <div className="roomlist-content">
                 {rooms &&
-                    rooms.map((room) => (
+                    rooms.map((room, i) => (
                         <Room
                             key={room.id}
                             room={room}
                             hasSearched={hasSearched}
+                            even={i % 2 === 0}
                         />
                     ))}
             </div>

@@ -16,3 +16,7 @@ body {
     height: 100vh;
     background-color: var(--gray-100);
 }
+
+.clickable {
+    cursor: pointer;
+}

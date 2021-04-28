@@ -1,42 +1,32 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { useAPI } from "../../hooks/useAPI";
 import { SocketContext } from "../../socket";
 import ChatInput from "./ChatInput";
 import Message from "./Message";
 
-function Chat({ room, match }) {
+function Chat({ room, user }) {
     const socket = useContext(SocketContext);
     let messageEnd = useRef();
 
-    const [response, makeRequest] = useAPI();
     const [messageResponse, makeMessageRequest] = useAPI();
-
     const [messages, setMessages] = useState([]);
-    const [user, setUser] = useState({});
-
-    //gets user
-    useEffect(() => {
-        if (response.loading || response.loading === false) return;
-        makeRequest({ url: "/users/me", method: "get" });
-    }, [makeRequest, response.loading]);
     //gets messages
     useEffect(() => {
-        if (
-            messageResponse.loading ||
-            messageResponse.loading === false ||
-            !room
-        )
-            return;
+        if (!room) return;
         makeMessageRequest({
             url: `/chatroom/messages/${room.id}`,
             method: "get",
         });
-    }, [makeMessageRequest, room, messageResponse.loading]);
-    //sets user and messages
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [room]);
+    //sets messages
     useEffect(() => {
-        if (!response.loading && !response.hasError) {
-            setUser(response.data);
-        }
         if (
             !messageResponse.loading &&
             !messageResponse.hasError &&
@@ -44,7 +34,7 @@ function Chat({ room, match }) {
         ) {
             setMessages(messageResponse.data);
         }
-    }, [response, messageResponse]);
+    }, [messageResponse]);
 
     //auto scroll
     useEffect(() => {
@@ -55,19 +45,22 @@ function Chat({ room, match }) {
         });
     });
 
-    socket.on("newMessage", (message) => {
-        //fetch the messages
-        if (
-            messageResponse.loading ||
-            messageResponse.loading === false ||
-            !room
-        )
-            return;
+    const handleNewMessage = (message, room) => {
+        if (!room) return;
         makeMessageRequest({
             url: `/chatroom/messages/${room.id}`,
             method: "get",
         });
-    });
+    };
+
+    useEffect(() => {
+        socket.on("newMessage", (message) => handleNewMessage(message, room));
+
+        return () => {
+            socket.off("newMessage");
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [socket, room]);
 
     const sendMessageHandler = (e, text) => {
         e.preventDefault();
@@ -90,14 +83,15 @@ function Chat({ room, match }) {
         <div className="chat">
             <div className="chat-info">{room.name}</div>
             <div className="chat-content">
-                {messages.map((message) => (
-                    <Message
-                        key={message.id}
-                        text={message.message}
-                        sender={message.user}
-                        me={user.id === message.user.id}
-                    />
-                ))}
+                {user &&
+                    messages.map((message) => (
+                        <Message
+                            key={message.id}
+                            text={message.message}
+                            sender={message.user}
+                            me={user.id === message.user.id}
+                        />
+                    ))}
                 <div ref={messageEnd} id="message-end"></div>
             </div>
 
