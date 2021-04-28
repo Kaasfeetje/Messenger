@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../../css/Signinup.css";
 import { history } from "../../history";
 import { useAPI } from "../../hooks/useAPI";
-function SigninPage() {
+function SigninPage({ onUserChange }) {
     const [usernameorEmail, setEmailOrUsername] = useState("");
     const [password, setPassword] = useState("");
     const [response, makeRequest] = useAPI();
@@ -13,8 +13,9 @@ function SigninPage() {
     useEffect(() => {
         if (!response.loading && response.data && !response.hasError) {
             history.push("/");
+            onUserChange();
         }
-    }, [response]);
+    }, [response, onUserChange]);
 
     const submitHandler = (e) => {
         e.preventDefault();

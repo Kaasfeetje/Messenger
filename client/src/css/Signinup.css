@@ -35,7 +35,7 @@
 .signinup-form-item input {
     flex: 1;
     padding: 0.5rem;
-    padding-left: 2rem;
+    padding-left: 3rem;
 
     color: var(--gray-500);
     font-size: larger;
@@ -56,7 +56,7 @@
 
 .signinup-form-item label {
     position: absolute;
-    left: 0.5rem;
+    left: 1rem;
     top: 0.5rem;
 
     color: var(--gray-500);
@@ -83,4 +83,20 @@
     border-radius: 0.5rem;
     background-color: var(--gray-500);
     color: var(--gray-200);
+}
+
+.signinup-option {
+    margin-top: 1rem;
+    text-align: center;
+
+    font-size: larger;
+
+    color: var(--gray-500);
+}
+
+.signinup-option a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    font-size: 1.25rem;
 }

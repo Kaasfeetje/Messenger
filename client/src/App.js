@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Router, Route } from "react-router-dom";
 import ChatPage from "./components/pages/ChatPage";
 import SigninPage from "./components/pages/SigninPage";
+import SignupPage from "./components/pages/SignupPage";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import { history } from "./history";
 import { useAPI } from "./hooks/useAPI";
@@ -25,9 +26,24 @@ function App({ location, match }) {
         }
     }, [response]);
 
+    const updateUser = () =>
+        makeRequest({
+            url: "/users/me",
+            method: "get",
+        });
+
     return (
         <Router history={history}>
-            <Route path="/signin" component={SigninPage} exact />
+            <Route
+                path="/signin"
+                render={() => <SigninPage onUserChange={updateUser} />}
+                exact
+            />
+            <Route
+                path="/signup"
+                render={() => <SignupPage onUserChange={updateUser} />}
+                exact
+            />
             <PrivateRoute
                 path="/rooms/:roomId"
                 Component={ChatPage}
