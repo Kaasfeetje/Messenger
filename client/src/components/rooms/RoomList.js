@@ -77,8 +77,11 @@ function RoomList({ room }) {
                         />
                     ))}
             </div>
-            <div className="roomlist-new">
+            <div className="roomlist-icon new">
                 <i className="fas fa-plus" />
+            </div>
+            <div className="roomlist-icon settings">
+                <i className="fas fa-users-cog" />
             </div>
         </div>
     );

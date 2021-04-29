@@ -84,6 +84,7 @@ function Chat({ room, user }) {
                             text={message.message}
                             sender={message.user}
                             me={user.id === message.user.id}
+                            id={message.id}
                         />
                     ))}
                 <div ref={messageEnd} id="message-end"></div>

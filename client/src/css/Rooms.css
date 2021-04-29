@@ -58,9 +58,9 @@
     border-top: 3px solid var(--gray-500);
 }
 
-.roomlist-new {
+.roomlist-icon {
     position: absolute;
-    right: 1rem;
+    /* right: 1rem; */
     bottom: 1rem;
     font-size: xx-large;
 
@@ -77,13 +77,23 @@
     transition: all 0.3s;
 }
 
-.roomlist-new:hover {
+.roomlist-icon.new {
+    right: 1rem;
+}
+
+.roomlist-icon.settings {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    left: 1rem;
+}
+
+.roomlist-icon:hover {
     color: var(--gray-500);
     background-color: inherit;
     box-sizing: border-box;
 }
 
-.roomlist-new:active {
+.roomlist-icon:active {
     transform: scale(1.1);
 }
 

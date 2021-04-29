@@ -1,0 +1,16 @@
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    width: 240px;
+
+    background-color: var(--gray-100);
+    color: var(--gray-500);
+
+    border: 1px solid var(--gray-300);
+    box-shadow: 1px 1px 2px var(--gray-400);
+}
+
+.context-menu.show {
+    display: block;
+}

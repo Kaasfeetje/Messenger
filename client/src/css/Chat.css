@@ -83,7 +83,7 @@
 }
 
 .message {
-    border-radius: 0.5rem;
+    border-radius: 0.5rem 0.5rem 0rem 0.5rem;
     margin: 1rem 0;
     padding: 0.5rem;
     width: fit-content;
@@ -94,6 +94,7 @@
 
 .left .message {
     background-color: var(--gray-500);
+    border-radius: 0.5rem 0.5rem 0.5rem 0;
 }
 
 .message .text {
