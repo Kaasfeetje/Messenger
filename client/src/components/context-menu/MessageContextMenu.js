@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { SocketContext } from "../../socket";
 import ContextMenu from "./ContextMenu";
 
 function MessageContextMenu() {
-    const [opened, setOpened] = useState(false);
+    const socket = useContext(SocketContext);
 
+    const [opened, setOpened] = useState(false);
     const [messageElement, setMessageElement] = useState(undefined);
     const [messageId, setMessageId] = useState("");
     const handleMenu = (el) => {
@@ -26,11 +28,18 @@ function MessageContextMenu() {
         setOpened(false);
     };
 
-    const editHandler = (e) => {
-        setOpened(false);
-    };
+    // const editHandler = (e) => {
+    //     socket.emit("message_update", {
+    //         messageId,
+    //         message: "this is updated",
+    //     });
+    //     setOpened(false);
+    // };
 
     const deleteHandler = (e) => {
+        socket.emit("message_delete", {
+            messageId,
+        });
         setOpened(false);
     };
 
@@ -44,9 +53,9 @@ function MessageContextMenu() {
             <ul>
                 <button onClick={copyHandler}>Copy</button>
             </ul>
-            <ul>
+            {/* <ul>
                 <button onClick={editHandler}>Edit</button>
-            </ul>
+            </ul> */}
             <ul>
                 <button onClick={deleteHandler}>Delete</button>
             </ul>

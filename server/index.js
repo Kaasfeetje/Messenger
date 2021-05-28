@@ -9,6 +9,8 @@ const io = require("socket.io")(server, {
 const mongoose = require("mongoose");
 const {
     createMessage,
+    updateMessage,
+    deleteMessage,
 } = require("./components/chatmessage/chatmessageController");
 
 const start = async () => {
@@ -41,12 +43,22 @@ const start = async () => {
 
             chatmessage = await createMessage(userId, roomId, message);
 
-            io.to(roomId).emit("newMessage", {
-                message: chatmessage.message,
-                room: chatmessage.room,
-                user: chatmessage.user,
-                tempSocket: socket.id,
-            });
+            io.to(roomId).emit("newMessage");
+        });
+
+        socket.on("message_update", async (data) => {
+            const { messageId, message } = data;
+
+            chatmessage = await updateMessage(messageId, message);
+
+            io.to(String(chatmessage.room)).emit("newMessage");
+        });
+
+        socket.on("message_delete", async (data) => {
+            const { messageId } = data;
+            chatmessage = await deleteMessage(messageId);
+
+            io.to(String(chatmessage.room)).emit("newMessage");
         });
     });
 };

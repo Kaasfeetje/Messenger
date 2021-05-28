@@ -10,6 +10,22 @@ const createMessage = async (userId, roomId, message) => {
     return await chatmessage.save();
 };
 
+const updateMessage = async (messageId, updatedMessage) => {
+    const chatmessage = await Chatmessage.findById(messageId);
+
+    chatmessage.message = updatedMessage || chatmessage.message;
+    await chatmessage.save();
+    return chatmessage;
+};
+
+const deleteMessage = async (messageId) => {
+    const chatmessage = await Chatmessage.findById(messageId);
+
+    await Chatmessage.findByIdAndDelete(messageId);
+
+    return chatmessage;
+};
+
 const getMessagesOfChat = async (req, res) => {
     //TODO: maybe check if room exists with that id
     //TODO: Add last message query that gets messages before last message(for scrolling back)
@@ -23,4 +39,9 @@ const getMessagesOfChat = async (req, res) => {
     res.status(200).send({ data: messages.reverse() });
 };
 
-module.exports = { getMessagesOfChat, createMessage };
+module.exports = {
+    getMessagesOfChat,
+    createMessage,
+    updateMessage,
+    deleteMessage,
+};

@@ -39,7 +39,7 @@ function Chat({ room, user }) {
         });
     });
 
-    const handleNewMessage = (message, room) => {
+    const handleNewMessage = (room) => {
         if (!room) return;
         makeMessageRequest({
             url: `/chatroom/messages/${room.id}`,
@@ -48,7 +48,7 @@ function Chat({ room, user }) {
     };
 
     useEffect(() => {
-        socket.on("newMessage", (message) => handleNewMessage(message, room));
+        socket.on("newMessage", () => handleNewMessage(room));
 
         return () => {
             socket.off("newMessage");
@@ -83,8 +83,8 @@ function Chat({ room, user }) {
                             key={message.id}
                             text={message.message}
                             sender={message.user}
+                            message={message}
                             me={user.id === message.user.id}
-                            id={message.id}
                         />
                     ))}
                 <div ref={messageEnd} id="message-end"></div>

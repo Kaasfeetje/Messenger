@@ -88,6 +88,8 @@
     padding: 0.5rem;
     width: fit-content;
 
+    display: flex;
+
     background-color: green;
     color: var(--gray-100);
 }
@@ -95,6 +97,7 @@
 .left .message {
     background-color: var(--gray-500);
     border-radius: 0.5rem 0.5rem 0.5rem 0;
+    flex-direction: row-reverse;
 }
 
 .message .text {
@@ -104,4 +107,114 @@
 .message .sender {
     font-weight: lighter;
     opacity: 0.8;
+}
+
+.message-hover {
+    opacity: 0;
+    margin-left: 0.25rem;
+    margin-top: 0.25rem;
+    position: relative;
+
+    transform: scale(0);
+
+    transition: all 0.3s;
+}
+
+.left .message .message-hover {
+    margin-right: 0.25rem;
+}
+
+.message-hover.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.message-hover.show .message-opener {
+    color: var(--gray-100);
+    transition: all 0.3s;
+}
+.message-hover.show .message-opener:hover {
+    color: var(--gray-200);
+}
+
+.message-menu {
+    pointer-events: none;
+    position: absolute;
+    z-index: -10;
+    right: 0;
+
+    padding: 0.5rem;
+    border: 1px solid var(--gray-400);
+    border-radius: 0.5rem 0 0.5rem 0.5rem;
+
+    opacity: 0;
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+
+    transform: scaleY(0.2);
+    transform-origin: top;
+
+    transition: all 0.3s;
+}
+
+.message-menu.show {
+    pointer-events: all;
+    opacity: 1;
+    z-index: 100;
+    transform: scaleY(1);
+}
+
+.left .message .message-hover .message-opener .message-menu {
+    left: 0;
+    right: auto;
+    border-radius: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.message-menu .menu-item {
+    display: flex;
+    padding: 0.5rem 0;
+}
+
+.message-menu .menu-item:hover {
+    color: var(--gray-400);
+}
+
+.message-edit {
+    background: none;
+    border: none;
+    color: var(--gray-200);
+
+    width: 30vw;
+    overflow-y: scroll;
+
+    outline: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.message-edit::-webkit-scrollbar {
+    display: none;
+}
+
+.message-edit:focus {
+    outline: none;
+}
+
+.message-edit-btn {
+    width: fit-content;
+
+    border: 2px solid var(--gray-100);
+    border-radius: 0.5rem;
+
+    padding: 0.25rem 0.5rem;
+
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: all 0.3s;
+}
+
+.message-edit-btn:hover {
+    background-color: var(--gray-100);
+    color: green;
 }

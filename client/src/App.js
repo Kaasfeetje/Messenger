@@ -52,7 +52,7 @@ function App({ location, match }) {
                 user={user}
             />
             <PrivateRoute path="/" Component={ChatPage} exact user={user} />
-            <MessageContextMenu />
+            {/* <MessageContextMenu /> */}
         </Router>
     );
 }
