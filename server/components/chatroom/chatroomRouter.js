@@ -13,31 +13,29 @@ const requireAuth = require("../../middlewares/requireAuth");
 
 const router = express.Router();
 
-router.use(currentUser, requireAuth);
-
 //@desc Creates a new room and makes the logged in user the owner
 //@route POST /api/v1/chatroom
 //@access Private
-router.post("/", createRoom);
+router.post("/", currentUser, requireAuth, createRoom);
 
 //@desc Gets all public rooms
 //@route GET /api/v1/chatroom
 //@access Private
-router.get("/", getAllPublicRooms);
+router.get("/", currentUser, requireAuth, getAllPublicRooms);
 //@desc Get a room by id
 //@route GET /api/v1/chatroom/:roomId
 //@access Private
-router.get("/:roomId", getRoomById);
+router.get("/:roomId", currentUser, requireAuth, getRoomById);
 
 //@desc Updates a room if the current user is the owner
 //@route PUT /api/v1/chatroom/:roomId
 //@access Private/Owner
-router.put("/:roomId", updateRoom);
+router.put("/:roomId", currentUser, requireAuth, updateRoom);
 
 //@desc Deletes a room if the current user is the owner
 //@route DELETE /api/v1/chatroom/:roomId
 //@access Private/Owner
-router.delete("/:roomId", deleteRoom);
+router.delete("/:roomId", currentUser, requireAuth, deleteRoom);
 
 /*
     CRUD    /\
@@ -48,6 +46,6 @@ router.delete("/:roomId", deleteRoom);
 //@desc Searches for rooms
 //@route GET /api/v1/chatroom/:keyword/search
 //@access Private
-router.get("/:keyword/search", searchRoom);
+router.get("/:keyword/search", currentUser, requireAuth, searchRoom);
 
 module.exports = router;

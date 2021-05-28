@@ -4,7 +4,7 @@ import { useAPI } from "../../hooks/useAPI";
 import Room from "./Room";
 import RoomSearch from "./RoomSearch";
 
-function RoomList({ room }) {
+function RoomList({ room, onCreateRoom }) {
     const [rooms, setRooms] = useState([]);
     // eslint-disable-next-line no-unused-vars
     const [hasSearched, setHasSearched] = useState(false);
@@ -54,7 +54,7 @@ function RoomList({ room }) {
     };
 
     return (
-        <div className="roomlist">
+        <div className="sidepanel">
             <RoomSearch onSubmit={searchHandler} />
             {hasSearched && (
                 <div
@@ -77,7 +77,7 @@ function RoomList({ room }) {
                         />
                     ))}
             </div>
-            <div className="roomlist-icon new">
+            <div className="roomlist-icon new" onClick={() => onCreateRoom()}>
                 <i className="fas fa-plus" />
             </div>
             <div className="roomlist-icon settings">

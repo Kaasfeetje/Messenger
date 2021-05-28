@@ -15,6 +15,9 @@ export const useAPI = () => {
                 method,
                 url: `http://localhost:3001/api/v1${url}`,
                 data,
+                headers: {
+                    "content-type": "application/json",
+                },
                 withCredentials: true,
             });
             setResponse({

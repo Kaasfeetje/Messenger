@@ -4,12 +4,16 @@ import "../../css/Chat.css";
 import { useAPI } from "../../hooks/useAPI";
 import { SocketContext } from "../../socket";
 import Chat from "../chat/Chat";
+import CreateRoom from "../rooms/CreateRoom";
 import RoomList from "../rooms/RoomList";
 function ChatPage({ match, user }) {
     const socket = useContext(SocketContext);
     const [response, makeRequest] = useAPI();
 
     const [room, setRoom] = useState(undefined);
+    const [sidePanelStatus, setSidePanelStatus] = useState("rooms");
+    //1 - rooms (roomlist panel)
+    //2 - create-room (create room panel)
 
     //if in room get the room so socket can join the room
     useEffect(() => {
@@ -34,7 +38,17 @@ function ChatPage({ match, user }) {
 
     return (
         <div>
-            <RoomList room={room} />
+            {sidePanelStatus === "rooms" ? (
+                <RoomList
+                    room={room}
+                    onCreateRoom={() => setSidePanelStatus("create-room")}
+                />
+            ) : sidePanelStatus === "create-room" ? (
+                <CreateRoom onCancel={() => setSidePanelStatus("rooms")} />
+            ) : (
+                <div />
+            )}
+
             <Chat room={room} user={user} match={match} />
         </div>
     );

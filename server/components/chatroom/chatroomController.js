@@ -2,6 +2,7 @@ const BadRequestError = require("../../common/errors/BadRequestError");
 const NotFoundError = require("../../common/errors/NotFoundError");
 const NotAuthorizedError = require("../../common/errors/NotAuthorizedError");
 const Chatroom = require("./chatroomModel");
+const RoomsJoined = require("../roomsJoined/roomsJoinedModel");
 
 //TODO: Maybe at a title field that will be the name you see in chat and have the private name be unique
 
@@ -15,6 +16,11 @@ const createRoom = async (req, res) => {
     const room = new Chatroom({ name, isPublic, owner: req.currentUser.id });
 
     await room.save();
+
+    await new RoomsJoined({
+        user: req.currentUser.id,
+        room: room.id,
+    }).save();
 
     res.status(201).send({ data: room });
 };
