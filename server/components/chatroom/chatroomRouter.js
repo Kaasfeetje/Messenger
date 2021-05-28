@@ -7,6 +7,7 @@ const {
     updateRoom,
     deleteRoom,
     searchRoom,
+    getRoomDetails,
 } = require("./chatroomController");
 const currentUser = require("../../middlewares/currentUser");
 const requireAuth = require("../../middlewares/requireAuth");
@@ -22,6 +23,12 @@ router.post("/", currentUser, requireAuth, createRoom);
 //@route GET /api/v1/chatroom
 //@access Private
 router.get("/", currentUser, requireAuth, getAllPublicRooms);
+
+//@desc Get a room by id
+//@route GET /api/v1/chatroom/:roomId/details
+//@access Private
+router.get("/:roomId/details", currentUser, requireAuth, getRoomDetails);
+
 //@desc Get a room by id
 //@route GET /api/v1/chatroom/:roomId
 //@access Private

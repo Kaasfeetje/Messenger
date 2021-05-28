@@ -51,6 +51,12 @@ function App({ location, match }) {
                 exact
                 user={user}
             />
+            <PrivateRoute
+                path="/rooms/:roomId/details"
+                Component={ChatPage}
+                exact
+                user={user}
+            />
             <PrivateRoute path="/" Component={ChatPage} exact user={user} />
             {/* <MessageContextMenu /> */}
         </Router>

@@ -4,7 +4,7 @@ import { SocketContext } from "../../socket";
 import ChatInput from "./ChatInput";
 import Message from "./Message";
 
-function Chat({ room, user }) {
+function Chat({ room, user, onDetailView }) {
     const socket = useContext(SocketContext);
     let messageEnd = useRef();
 
@@ -75,7 +75,9 @@ function Chat({ room, user }) {
 
     return (
         <div className="chat">
-            <div className="chat-info">{room.name}</div>
+            <h2 className="chat-info clickable" onClick={() => onDetailView()}>
+                {room.name}
+            </h2>
             <div className="chat-content">
                 {user &&
                     messages.map((message) => (

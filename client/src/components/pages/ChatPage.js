@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import "../../css/Chat.css";
+import { history } from "../../history";
 import { useAPI } from "../../hooks/useAPI";
 import { SocketContext } from "../../socket";
 import Chat from "../chat/Chat";
+import ChatDetails from "../chat/ChatDetails";
 import CreateRoom from "../rooms/CreateRoom";
 import RoomList from "../rooms/RoomList";
 function ChatPage({ match, user }) {
@@ -11,6 +13,7 @@ function ChatPage({ match, user }) {
     const [response, makeRequest] = useAPI();
 
     const [room, setRoom] = useState(undefined);
+    const [detailView, setDetailView] = useState(false);
     const [sidePanelStatus, setSidePanelStatus] = useState("rooms");
     //1 - rooms (roomlist panel)
     //2 - create-room (create room panel)
@@ -49,7 +52,23 @@ function ChatPage({ match, user }) {
                 <div />
             )}
 
-            <Chat room={room} user={user} match={match} />
+            {match.path.includes("details") ? (
+                <ChatDetails
+                    room={room}
+                    onCancel={() => {
+                        history.push(`/rooms/${room.id}`);
+                    }}
+                />
+            ) : (
+                <Chat
+                    room={room}
+                    user={user}
+                    match={match}
+                    onDetailView={() => {
+                        history.push(`/rooms/${room.id}/details`);
+                    }}
+                />
+            )}
         </div>
     );
 }

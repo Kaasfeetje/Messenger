@@ -14,8 +14,10 @@
 
 .chat-info {
     height: 8%;
-    background-color: var(--gray-200);
+    background-color: var(--gray-400);
+    color: var(--gray-100);
     padding: 1rem;
+    text-align: center;
 }
 
 .chat-content {
@@ -217,4 +219,33 @@
 .message-edit-btn:hover {
     background-color: var(--gray-100);
     color: green;
+}
+
+.chat-name {
+    text-align: center;
+    color: var(--gray-500);
+}
+
+.chat-users h3 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    color: var(--gray-500);
+    font-size: 1.5rem;
+}
+
+.chat-users div {
+    text-align: center;
+    margin: 0.5rem 0;
+    color: var(--gray-500);
+}
+
+.chat-users div h5 {
+    font-size: larger;
+}
+
+.chat-users div span {
+    font-size: medium;
+    font-style: italic;
+    opacity: 0.8;
 }

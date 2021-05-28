@@ -85,6 +85,14 @@ const searchRoom = async (req, res) => {
     res.status(200).send({ data: rooms });
 };
 
+const getRoomDetails = async (req, res) => {
+    const users = await RoomsJoined.find({ room: req.params.roomId })
+        .populate("user")
+        .select({ _id: 0, user: 1 });
+    console.log(users);
+    res.status(200).send({ data: { users } });
+};
+
 module.exports = {
     createRoom,
     getAllPublicRooms,
@@ -92,4 +100,5 @@ module.exports = {
     updateRoom,
     deleteRoom,
     searchRoom,
+    getRoomDetails,
 };
