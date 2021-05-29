@@ -1,4 +1,5 @@
 const Chatmessage = require("./chatmessageModel");
+const NotFoundError = require("../../common/errors/NotFoundError");
 
 const createMessage = async (userId, roomId, message) => {
     const chatmessage = new Chatmessage({
@@ -29,14 +30,26 @@ const deleteMessage = async (messageId) => {
 const getMessagesOfChat = async (req, res) => {
     //TODO: maybe check if room exists with that id
     //TODO: Add last message query that gets messages before last message(for scrolling back)
-    const messages = await Chatmessage.find({
-        room: req.params.roomId,
-    })
+    const lastPost = req.query.lastPost
+        ? new Date(req.query.lastPost)
+        : undefined;
+    const query = lastPost
+        ? { room: req.params.roomId, createdAt: { $lt: lastPost } }
+        : { room: req.params.roomId };
+
+    const messages = await Chatmessage.find(query)
         .sort({ createdAt: -1 })
         .limit(25)
         .populate("user");
 
-    res.status(200).send({ data: messages.reverse() });
+    if (messages.length === 0) throw new NotFoundError("No posts found");
+
+    res.status(200).send({
+        data: {
+            messages: messages.reverse(),
+            lastPost: messages[0].createdAt,
+        },
+    });
 };
 
 module.exports = {

@@ -9,14 +9,64 @@ function Chat({ room, user, onDetailView }) {
     let messageEnd = useRef();
 
     const [messageResponse, makeMessageRequest] = useAPI();
+    const [scrollResponse, makeScrollRequest] = useAPI();
     const [messages, setMessages] = useState([]);
+    const [lastPost, setLastpost] = useState(undefined);
+
+    const containerRef = useRef();
+    const callbackFunction = (entries) => {
+        const [entry] = entries;
+        if (
+            entry.isIntersecting &&
+            scrollResponse.loading === false &&
+            !scrollResponse.hasError
+        ) {
+            makeScrollRequest({
+                url: `/chatroom/messages/${room.id}${
+                    lastPost ? `?lastPost=${lastPost}` : ""
+                }`,
+                method: "get",
+            });
+        }
+    };
+
+    useEffect(() => {
+        const options = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 1.0,
+        };
+        const observer = new IntersectionObserver(callbackFunction, options);
+        if (containerRef.current) observer.observe(containerRef.current);
+        // console.log(containerRef);
+
+        return () => {
+            if (containerRef.current) observer.unobserve(containerRef.current);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [containerRef.current, lastPost, scrollResponse]);
+
+    useEffect(() => {
+        if (
+            !scrollResponse.loading &&
+            !scrollResponse.hasError &&
+            scrollResponse.data
+        ) {
+            setMessages([...scrollResponse.data.messages, ...messages]);
+            setLastpost(scrollResponse.data.lastPost);
+            scrollResponse.data = undefined;
+        }
+    }, [scrollResponse, messages]);
+
     //gets messages
     useEffect(() => {
         if (!room) return;
-        makeMessageRequest({
+        setMessages([]);
+        makeScrollRequest({
             url: `/chatroom/messages/${room.id}`,
             method: "get",
         });
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [room]);
     //sets messages
@@ -26,7 +76,8 @@ function Chat({ room, user, onDetailView }) {
             !messageResponse.hasError &&
             messageResponse.data
         ) {
-            setMessages(messageResponse.data);
+            setMessages(messageResponse.data.messages);
+            setLastpost(messageResponse.data.lastPost);
         }
     }, [messageResponse]);
 
@@ -37,7 +88,7 @@ function Chat({ room, user, onDetailView }) {
             behavior: "smooth",
             block: "center",
         });
-    });
+    }, [messages]);
 
     const handleNewMessage = (room) => {
         if (!room) return;
@@ -79,6 +130,10 @@ function Chat({ room, user, onDetailView }) {
                 {room.name}
             </h2>
             <div className="chat-content">
+                {scrollResponse.loading === false && (
+                    <div ref={containerRef}>test</div>
+                )}
+
                 {user &&
                     messages.map((message) => (
                         <Message
