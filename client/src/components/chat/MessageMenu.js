@@ -1,4 +1,4 @@
-import React, { createElement, useContext } from "react";
+import React, { useContext } from "react";
 import { SocketContext } from "../../socket";
 
 function MessageMenu({ message, me, opened, onDismiss, onEdit }) {

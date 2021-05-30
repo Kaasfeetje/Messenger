@@ -41,6 +41,7 @@ function Chat({ room, user, onDetailView }) {
         // console.log(containerRef);
 
         return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             if (containerRef.current) observer.unobserve(containerRef.current);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps

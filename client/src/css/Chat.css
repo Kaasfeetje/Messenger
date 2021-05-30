@@ -249,3 +249,24 @@
     font-style: italic;
     opacity: 0.8;
 }
+
+.leave-btn {
+    display: block;
+    margin: 2rem auto;
+
+    background-color: var(--gray-100);
+    color: var(--gray-500);
+    font-size: larger;
+
+    border: 2px solid var(--gray-400);
+    border-radius: 0.25rem;
+
+    padding: 0.5rem 1rem;
+
+    transition: all 0.3s;
+}
+
+.leave-btn:hover {
+    background-color: var(--gray-500);
+    color: var(--gray-100);
+}

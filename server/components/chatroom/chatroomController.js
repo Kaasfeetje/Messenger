@@ -79,8 +79,8 @@ const searchRoom = async (req, res) => {
         isPublic: true,
     });
 
-    if (!rooms || rooms.length === 0)
-        throw new NotFoundError("Did not find any rooms.");
+    // if (!rooms || rooms.length === 0)
+    //     throw new NotFoundError("Did not find any rooms.");
 
     res.status(200).send({ data: rooms });
 };

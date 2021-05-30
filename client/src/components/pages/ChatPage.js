@@ -14,10 +14,10 @@ function ChatPage({ match, user }) {
     const [response, makeRequest] = useAPI();
 
     const [room, setRoom] = useState(undefined);
-    const [detailView, setDetailView] = useState(false);
     const [sidePanelStatus, setSidePanelStatus] = useState("rooms");
     //1 - rooms (roomlist panel)
     //2 - create-room (create room panel)
+    //3 - settings (settings/change profile panel)
 
     //if in room get the room so socket can join the room
     useEffect(() => {

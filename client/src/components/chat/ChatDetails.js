@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { history } from "../../history";
 import { useAPI } from "../../hooks/useAPI";
 
 function ChatDetails({ room, onCancel }) {
     //get room details
     const [response, makeRequest] = useAPI();
+    const [leaveResponse, makeLeaveRequest] = useAPI();
 
     const [users, setUsers] = useState([]);
 
@@ -23,6 +25,21 @@ function ChatDetails({ room, onCancel }) {
 
         setUsers(response.data.users);
     }, [response]);
+
+    useEffect(() => {
+        if (
+            leaveResponse.loading === true ||
+            leaveResponse.loading === undefined ||
+            leaveResponse.hasError
+        )
+            return;
+
+        history.push("/");
+    }, [leaveResponse]);
+
+    const leaveRoomHandler = () => {
+        makeLeaveRequest({ url: `/chatroom/joined/${room.id}`, method: "get" });
+    };
 
     return (
         <div className="chat">
@@ -44,6 +61,12 @@ function ChatDetails({ room, onCancel }) {
                             </div>
                         ))}
                 </div>
+                <button
+                    className="leave-btn"
+                    onClick={() => leaveRoomHandler()}
+                >
+                    Leave room...
+                </button>
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
 const express = require("express");
-const { getMyJoinedRooms, joinRoom } = require("./roomsJoinedController");
+const { getMyJoinedRooms, joinLeaveRoom } = require("./roomsJoinedController");
 const currentUser = require("../../middlewares/currentUser");
 const requireAuth = require("../../middlewares/requireAuth");
 
@@ -12,6 +12,6 @@ router.get("/", currentUser, requireAuth, getMyJoinedRooms);
 //@desc Joins a room
 //@route GET /api/v1/chatroom/joined/:roomId
 //@access Private
-router.get("/:roomId", currentUser, requireAuth, joinRoom);
+router.get("/:roomId", currentUser, requireAuth, joinLeaveRoom);
 
 module.exports = router;
