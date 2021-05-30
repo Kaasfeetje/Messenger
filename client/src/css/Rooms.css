@@ -93,6 +93,12 @@
     left: 1rem;
 }
 
+.roomlist-icon.logout {
+    left: 37.5%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
 .roomlist-icon:hover {
     color: var(--gray-500);
     background-color: inherit;
@@ -234,4 +240,10 @@
     top: auto;
     left: auto;
     margin-right: 1rem;
+}
+
+.create-room-form h3 {
+    margin-left: 0.5rem;
+    margin-top: 1rem;
+    color: var(--gray-500);
 }

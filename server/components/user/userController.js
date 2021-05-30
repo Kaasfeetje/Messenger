@@ -38,9 +38,10 @@ const signin = async (req, res) => {
             "Please provide an email or username and a password"
         );
 
-    const validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        usernameorEmail
-    );
+    const validEmail =
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            usernameorEmail
+        );
 
     let user;
     if (!validEmail) {
@@ -75,10 +76,12 @@ const signout = async (req, res) => {
 const updateMe = async (req, res) => {
     const user = await User.findById(req.currentUser.id);
 
-    const { nickname, email } = req.body;
+    const { username, nickname, email, password } = req.body;
 
     user.nickname = nickname || user.nickname;
+    user.username = username || user.username;
     user.email = email || user.email;
+    user.password = password || user.password;
 
     const updatedUser = await user.save();
 

@@ -4,7 +4,7 @@ import { useAPI } from "../../hooks/useAPI";
 import Room from "./Room";
 import RoomSearch from "./RoomSearch";
 
-function RoomList({ room, onCreateRoom }) {
+function RoomList({ room, onCreateRoom,onSettings }) {
     const [rooms, setRooms] = useState([]);
     // eslint-disable-next-line no-unused-vars
     const [hasSearched, setHasSearched] = useState(false);
@@ -80,7 +80,7 @@ function RoomList({ room, onCreateRoom }) {
             <div className="roomlist-icon new" onClick={() => onCreateRoom()}>
                 <i className="fas fa-plus" />
             </div>
-            <div className="roomlist-icon settings">
+            <div className="roomlist-icon settings" onClick={()=>onSettings()}>
                 <i className="fas fa-users-cog" />
             </div>
         </div>

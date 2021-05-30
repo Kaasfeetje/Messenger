@@ -8,6 +8,7 @@ import Chat from "../chat/Chat";
 import ChatDetails from "../chat/ChatDetails";
 import CreateRoom from "../rooms/CreateRoom";
 import RoomList from "../rooms/RoomList";
+import Settings from "../settings/Settings";
 function ChatPage({ match, user }) {
     const socket = useContext(SocketContext);
     const [response, makeRequest] = useAPI();
@@ -45,9 +46,15 @@ function ChatPage({ match, user }) {
                 <RoomList
                     room={room}
                     onCreateRoom={() => setSidePanelStatus("create-room")}
+                    onSettings={() => setSidePanelStatus("settings")}
                 />
             ) : sidePanelStatus === "create-room" ? (
                 <CreateRoom onCancel={() => setSidePanelStatus("rooms")} />
+            ) : sidePanelStatus === "settings" ? (
+                <Settings
+                    user={user}
+                    onCancel={() => setSidePanelStatus("rooms")}
+                />
             ) : (
                 <div />
             )}

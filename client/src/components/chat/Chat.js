@@ -131,7 +131,7 @@ function Chat({ room, user, onDetailView }) {
             </h2>
             <div className="chat-content">
                 {scrollResponse.loading === false && (
-                    <div ref={containerRef}>test</div>
+                    <div ref={containerRef}>Loading...</div>
                 )}
 
                 {user &&
